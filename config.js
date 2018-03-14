@@ -1,4 +1,4 @@
-
+var bitcore = require('bitcore-lib');
 var env = process.env.NODE_ENV || 'development';
 
 var config = {
@@ -10,10 +10,12 @@ var config = {
         'btc': {
             'network': 'testnet', // testnet || livenet
             'testnet':{
-                'apiBaseUrl': 'https://test-insight.bitpay.com'
+                'apiBaseUrl': 'https://test-insight.bitpay.com',
+                'network': bitcore.Networks.testnet
             },
             'livenet':{
-                'apiBaseUrl': 'http://insight.coinbank.info/insight-api'
+                'apiBaseUrl': 'http://insight.coinbank.info/insight-api',
+                'network': bitcore.Networks.livenet
             }
         },
         'web3Provider': 'http://13.250.15.1:8545',
