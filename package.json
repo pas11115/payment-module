@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://gitlab.com/kunalpareek/cowry8paymentmodule/issues"
   },
-  "homepage": "https://gitlab.com/kunalpareek/cowry8paymentmodule#README"
+  "homepage": "https://gitlab.com/kunalpareek/cowry8paymentmodule#README",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "ethers": "^3.0.4",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.10",
+    "morgan": "^1.9.0",
+    "web3": "^1.0.0-beta.31",
+    "winston": "^2.4.1"
+  }
 }
