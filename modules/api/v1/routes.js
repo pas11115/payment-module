@@ -7,7 +7,7 @@ router.use(auth.auth);
 
 router.post('/withdraw/btc', withdrawalController.btcWithdraw);
 router.post('/withdraw/eth', withdrawalController.ethWithdraw);
-// router.post('/withdraw/mcap', withdrawalController.mcapWithdraw);
+router.post('/withdraw/erc20', withdrawalController.erc20Withdraw);
 
 
 module.exports = router;
