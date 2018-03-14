@@ -1,0 +1,19 @@
+{
+  "name": "cowry8paymentmodule",
+  "version": "1.0.0",
+  "description": "payment module for cryptocurrencies",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/kunalpareek/cowry8paymentmodule.git"
+  },
+  "author": "kunalp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/kunalpareek/cowry8paymentmodule/issues"
+  },
+  "homepage": "https://gitlab.com/kunalpareek/cowry8paymentmodule#README"
+}
