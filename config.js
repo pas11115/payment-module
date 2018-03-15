@@ -18,7 +18,7 @@ var config = {
                 'network': bitcore.Networks.livenet
             }
         },
-        'web3Provider': 'http://13.250.15.1:8545',
+        'web3Provider': 'http://13.250.15.1',
         'ethersNetwork': require('ethers').providers.networks.ropsten
     },
     'production':{
