@@ -3,6 +3,7 @@ var Erc20Withdrawal = require('./../../../../models/erc20Withdrawal');
 var logger = require('./../helpers/log');
 var web3 = require('web3');
 var bitcore = require('bitcore-lib');
+var litecore = require('litecore-lib');
 var config = require('./../../../../config');
 function Controller() {}
 
@@ -177,6 +178,58 @@ Controller.prototype.erc20Withdraw = function(req, res){
             })
             .catch(function(error){
                 logger.log('error', "error saving erc20Withdrawal", {"message": error});
+                res.status(400).json({
+                    "success": false,
+                    "message": "withdrawal could not be processed"
+                });
+            })
+    }
+
+};
+
+Controller.prototype.ltcWithdraw = function(req, res){
+    var amount = req.body.amount;
+    var withdrawalAddress = req.body.withdrawalAddress;
+    var walletAddress = req.body.walletAddress;
+    var walletKey = req.body.walletKey;
+    if(parseFloat(amount) <= 0 || isNaN(amount)){
+        res.status(400).json({
+            "success": false,
+            "message": "valid amount is required"
+        });
+    }
+    else if(litecore.Address.isValid(withdrawalAddress, config.ltc[config.ltc.network].network) === false){
+        res.status(400).json({
+            "success": false,
+            "message": "invalid withdrawal address"
+        });
+    }
+    else if(litecore.Address.isValid(walletAddress, config.ltc[config.ltc.network].network) === false){
+        res.status(400).json({
+            "success": false,
+            "message": "invalid from address"
+        });
+    }
+    /* @todo check if private key is valid or not */
+    else{
+        var withdrawal = new Withdrawal();
+        withdrawal.Currency = "LTC";
+        withdrawal.Amount = amount;
+        withdrawal.WithdrawalAddress = withdrawalAddress;
+        withdrawal.WalletAddress = walletAddress;
+        withdrawal.WalletKey = walletKey;
+        withdrawal.Timestamp = parseInt(Date.now() / 1000);
+        withdrawal.save()
+            .then(function(savedWithdrawal){
+                logger.log('info', savedWithdrawal._id + " successfully saved");
+                res.status(200).json({
+                    "requestId": savedWithdrawal._id,
+                    "withdrawalAddress": savedWithdrawal.WithdrawalAddress,
+                    "amount": savedWithdrawal.Amount
+                });
+            })
+            .catch(function(error){
+                logger.log('error', "error saving ltcWithdrawal", {"message": error});
                 res.status(400).json({
                     "success": false,
                     "message": "withdrawal could not be processed"

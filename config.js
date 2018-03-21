@@ -1,4 +1,5 @@
 var bitcore = require('bitcore-lib');
+var litecore = require('litecore-lib');
 var env = process.env.NODE_ENV || 'development';
 
 var config = {
@@ -16,6 +17,17 @@ var config = {
             'livenet':{
                 'apiBaseUrl': 'http://insight.coinbank.info/insight-api',
                 'network': bitcore.Networks.livenet
+            }
+        },
+        'ltc': {
+            'network': 'testnet', // testnet || livenet
+            'testnet':{
+                'apiBaseUrl': 'https://testnet.litecore.io/api',
+                'network': litecore.Networks.testnet
+            },
+            'livenet':{
+                'apiBaseUrl': 'https://insight.litecore.io/api',
+                'network': litecore.Networks.livenet
             }
         },
         'web3Provider': 'http://13.250.15.1',

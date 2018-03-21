@@ -10,7 +10,9 @@ var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 var bitcore = require('bitcore-lib');
 var BitcoinUtils = require('./utils/bitcoinUtils');
+var LitecoinUtils = require('./utils/litecoinUtils');
 var EthUtils = require('./utils/ethUtils');
+var litecore = require('litecore-lib');
 
 function Payment() {}
 
@@ -106,6 +108,42 @@ Payment.prototype.btcPayment = function(amount, privateKey, fromAddress, toAddre
             })
             .then(function(serializedTx){
                 return BitcoinUtils.broadcastTx(serializedTx)
+            })
+            .then(function(res){
+                return JSON.parse(JSON.stringify(res)).txid;
+            })
+            .then(function(tx){
+                resolve(tx)
+            })
+            .catch(function(error){
+                reject(error);
+            })
+    })
+};
+
+Payment.prototype.ltcPayment = function(amount, privateKey, fromAddress, toAddress){
+    var privKey = litecore.PrivateKey.fromWIF(privateKey);
+    var sourceAddress;
+    if(config.ltc.network === "testnet"){
+        sourceAddress = privKey.toAddress(litecore.Networks.testnet);
+    }
+    else{
+        sourceAddress = privKey.toAddress(litecore.Networks.livenet);
+    }
+    return new bluebird.Promise(function(resolve, reject){
+        LitecoinUtils.getUtxos(sourceAddress.toString())
+            .then(function(utxos){
+                var tx = new litecore.Transaction().fee(5000);
+
+                tx.from(utxos);
+                tx.to(toAddress, amount);
+                tx.change(sourceAddress);
+                tx.sign(privKey);//aes.decrypt(privateKey, config.secretKey).toString(CryptoJS.enc.Utf8));
+
+                return tx.serialize();
+            })
+            .then(function(serializedTx){
+                return LitecoinUtils.broadcastTx(serializedTx)
             })
             .then(function(res){
                 return JSON.parse(JSON.stringify(res)).txid;
