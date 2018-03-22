@@ -7,7 +7,7 @@ var litecore = require('litecore-lib');
 var config = require('./../../../../config');
 function Controller() {}
 
-Controller.prototype.ethWithdraw = function(req, res){
+var ethWithdraw = function(req, res){
     var amount = req.body.amount;
     var withdrawalAddress = req.body.withdrawalAddress;
     var walletAddress = req.body.walletAddress;
@@ -59,7 +59,7 @@ Controller.prototype.ethWithdraw = function(req, res){
 
 };
 
-Controller.prototype.btcWithdraw = function(req, res){
+var btcWithdraw = function(req, res){
     var amount = req.body.amount;
     var withdrawalAddress = req.body.withdrawalAddress;
     var walletAddress = req.body.walletAddress;
@@ -111,7 +111,7 @@ Controller.prototype.btcWithdraw = function(req, res){
 
 };
 
-Controller.prototype.erc20Withdraw = function(req, res){
+var erc20Withdraw = function(req, res){
     var amount = req.body.amount;
     var withdrawalAddress = req.body.withdrawalAddress;
     var walletAddress = req.body.walletAddress;
@@ -187,7 +187,7 @@ Controller.prototype.erc20Withdraw = function(req, res){
 
 };
 
-Controller.prototype.ltcWithdraw = function(req, res){
+var ltcWithdraw = function(req, res){
     var amount = req.body.amount;
     var withdrawalAddress = req.body.withdrawalAddress;
     var walletAddress = req.body.walletAddress;
@@ -237,6 +237,27 @@ Controller.prototype.ltcWithdraw = function(req, res){
             })
     }
 
+};
+
+Controller.prototype.Withdraw = function(req, res){
+    if((req.body.currency).toUpperCase() === "ETH"){
+        ethWithdraw(req, res);
+    }
+    else if((req.body.currency).toUpperCase() === "BTC"){
+        btcWithdraw(req, res);
+    }
+    else if((req.body.currency).toUpperCase() === "LTC"){
+        ltcWithdraw(req, res);
+    }
+    else if((req.body.currency).toUpperCase() === "ERC20"){
+        erc20Withdraw(req, res);
+    }
+    else{
+        res.status(400).json({
+            "success": false,
+            "message": "currency not available"
+        });
+    }
 };
 
 module.exports = new Controller();
