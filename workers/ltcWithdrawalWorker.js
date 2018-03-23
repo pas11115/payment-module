@@ -11,7 +11,7 @@ var updateWithdrawalStatus = function(request, tx){
     return new bluebird.Promise(function(resolve, reject){
         Withdrawal.findOneAndUpdate(
             {_id: request._id},
-            {$set: {WithdrawalSuccess: true, Extra: tx}}
+            {$set: {WithdrawalSuccess: true, Hash: tx}}
         )
             .then(function(updatedReq){
                 resolve(updatedReq)

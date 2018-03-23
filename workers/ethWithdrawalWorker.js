@@ -11,7 +11,7 @@ var updateWithdrawalStatus = function(request, tx){
     return new bluebird.Promise(function(resolve, reject){
         mongoose.model('Withdrawal').findOneAndUpdate(
             {_id: request._id},
-            {$set: {WithdrawalSuccess: true, Extra: tx}}
+            {$set: {WithdrawalSuccess: true, Extra: tx, Hash: tx.hash}}
         )
             .then(function(updatedReq){
                 logger.log('info', updatedReq._id + " successfully updated");

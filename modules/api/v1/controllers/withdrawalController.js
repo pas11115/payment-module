@@ -260,4 +260,8 @@ Controller.prototype.Withdraw = function(req, res){
     }
 };
 
+Controller.prototype.Status = function(req, res){
+
+};
+
 module.exports = new Controller();

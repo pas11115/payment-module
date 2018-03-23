@@ -35,6 +35,9 @@ var WithdrawalSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    Hash: {
+        type: String
+    },
     Extra: []
 });
 
