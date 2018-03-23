@@ -47,7 +47,7 @@ var config = {
                 'apiBaseUrl': 'http://insight.coinbank.info/insight-api'
             }
         },
-        'web3Provider': 'https://conversely-eager-tahr.quiknode.io/0d01e75e-429f-4216-be02-a94ce63e3d4d/PHBam5QVcYM6M85qrrlomQ==/',
+        'web3Provider': 'https://geth.loveblock.io',
         'ethersNetwork': require('ethers').providers.networks.homestead
     }
 
