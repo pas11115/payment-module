@@ -26,30 +26,27 @@ Payment.prototype.ethPayment = function(amount, privateKey, concernedAddress){
         var resolvedTx;
         provider.getBalance(wallet.address)
             .then(function(balance){
-                /* todo: if balance less than amount throw error */
                 transaction.value = utils.parseEther(amount);
                 return wallet.estimateGas(transaction)
             })
             .then(function(gasEstimate) {
                 console.log(gasEstimate.toString());
                 transaction.gasLimit = gasEstimate;
-                transaction.value = utils.bigNumberify(transaction.value).add(utils.bigNumberify(gasEstimate * 10000000000));
-                // get txCount from web3 and accountDb
+                transaction.value = utils.bigNumberify(transaction.value).add(utils.bigNumberify(gasEstimate * 1000000000));
+                return EthUtils.getNonce(wallet.address)
+            })
+            .then(function(nonce){
+                transaction.nonce = nonce;
+                console.log(transaction);
                 return wallet.sendTransaction(transaction);
-                // return EthUtils.getNonce(wallet.address)
-            })
-            // .then(function(nonce){
-            //     transaction.nonce = nonce;
-            //     return wallet.sendTransaction(transaction);
-            // })
-            .then(function(tx){
-                return provider.waitForTransaction(tx.hash);
-                // update nonce db
-                // resolvedTx = tx;
-                // return EthUtils.updateNonce(wallet.address, transaction.nonce)
             })
             .then(function(tx){
-                resolve(tx);
+                resolvedTx = tx;
+                return EthUtils.updateNonce(wallet.address, transaction.nonce)
+            })
+            .then(function(success){
+                if(success)
+                    resolve(resolvedTx);
             })
             .catch(function(error){
                 reject(error);
@@ -72,16 +69,24 @@ Payment.prototype.erc20Payment = function(amount, privateKey, fromAddress, toAdd
 
         tokenTx.data = String(EthUtils.createDataForTokenTransfer(to, availableBalance));
         console.log(tokenTx);
-        wallet.sendTransaction(tokenTx)
-            .then(function(tx){
-                return provider.waitForTransaction(tx.hash);
+        var resolvedTx;
+        EthUtils.getNonce(wallet.address)
+            .then(function(nonce){
+                tokenTx.nonce = nonce;
+                return wallet.sendTransaction(tokenTx)
             })
-            .then(function(transaction){
-                resolve(transaction);
+            .then(function(tx){
+                resolvedTx = tx;
+                return EthUtils.updateNonce(wallet.address, tokenTx.nonce)
+            })
+            .then(function(success){
+                if(success)
+                    resolve(resolvedTx);
             })
             .catch(function(error){
                 reject(error);
             })
+
     })
 };
 

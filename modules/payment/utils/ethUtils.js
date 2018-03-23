@@ -28,8 +28,8 @@ EthUtils.prototype.getNonce = function(address){
     return new bluebird.Promise(function(resolve, reject){
         var txCount, nonce;
         web3.eth.getTransactionCount(address)
-            .then(function(nonce){
-                txCount = nonce;
+            .then(function(nce){
+                txCount = nce;
                 return EthErc20Account.findOne({Address:address})
             })
             .then(function(account){

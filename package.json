@@ -17,6 +17,7 @@
   },
   "homepage": "https://gitlab.com/kunalpareek/cowry8paymentmodule#README",
   "dependencies": {
+    "async": "^2.6.0",
     "bitcore-lib": "^0.15.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",

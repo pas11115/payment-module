@@ -8,7 +8,8 @@ var ethErc20AccountSchema = new mongoose.Schema({
     },
     Address: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     Nonce: {
         type: Number,
