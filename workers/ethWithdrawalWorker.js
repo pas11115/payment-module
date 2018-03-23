@@ -6,6 +6,7 @@ var bluebird = require('bluebird');
 var Withdrawal = require('../models/withdrawal');
 var Payment = require('../modules/payment/payment');
 var logger = require('../modules/api/v1/helpers/log');
+var async = require('async');
 
 var updateWithdrawalStatus = function(request, tx){
     return new bluebird.Promise(function(resolve, reject){
@@ -23,12 +24,28 @@ var updateWithdrawalStatus = function(request, tx){
     })
 };
 
-var processWithdrawal = function(withdrawalRequests){
-    withdrawalRequests.forEach(function(request){
-        //todo : confirm the request before payment
+var processSingleRequest = function(request){
+    return new bluebird.Promise(function(resolve, reject){
         Payment.ethPayment(request.Amount, request.WalletKey, request.WithdrawalAddress)
             .then(function(transaction){
                 updateWithdrawalStatus(request, transaction)
+            })
+            .then(function(data){
+                resolve(true)
+            })
+            .catch(function(error){
+                console.log(error);
+                reject(error)
+            })
+    })
+};
+
+var processWithdrawal = function(withdrawalRequests){
+    async.eachSeries(withdrawalRequests, function(request, cb){
+        processSingleRequest(request)
+            .then(function(success){
+                console.log(success);
+                cb();
             })
             .catch(function(error){
                 console.log(error)
@@ -47,7 +64,7 @@ var processWithdrawal = function(withdrawalRequests){
                     Currency: "ETH",
                     WithdrawalSuccess: false
                 }).
-                limit(1).
+                limit(5).
                 sort({ Timestamp: 1 })
                     .then(function(withdrawalRequests){
                         console.log(withdrawalRequests);
