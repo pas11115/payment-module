@@ -3,8 +3,7 @@ module.exports = {
         {
             name: "Main",
             script: "server.js",
-            watch: false,
-            instances: 2
+            watch: false
         },
         {
             name: "LTC Withdrawal Worker",
