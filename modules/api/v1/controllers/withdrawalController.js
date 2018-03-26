@@ -12,6 +12,9 @@ var ethWithdraw = function(req, res){
     var withdrawalAddress = req.body.withdrawalAddress;
     var walletAddress = req.body.walletAddress;
     var walletKey = req.body.walletKey;
+    if(walletKey.substring(0,2) !== "0x" || walletKey.substring(0,2) !== "0X"){
+        walletKey = "0x" + walletKey;
+    }
     if(parseFloat(amount) <= 0 || isNaN(amount)){
         res.status(400).json({
             "success": false,
@@ -119,6 +122,9 @@ var erc20Withdraw = function(req, res){
     var decimal = req.body.decimal;
     var currency = req.body.currency;
     var contractAddress = req.body.contractAddress;
+    if(walletKey.substring(0,2) !== "0x" || walletKey.substring(0,2) !== "0X"){
+        walletKey = "0x" + walletKey;
+    }
     if(parseFloat(amount) <= 0 || isNaN(amount)){
         res.status(400).json({
             "success": false,
