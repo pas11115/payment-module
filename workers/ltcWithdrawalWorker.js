@@ -26,8 +26,8 @@ var processWithdrawal = function(withdrawalRequests){
     withdrawalRequests.forEach(function(request){
         LitecoinUtils.getLTCBalance(request.WalletAddress)
             .then(function(response){
-                if(parseFloat(response.balanceSat) > parseFloat(request.Amount)){
-                    return Payment.ltcPayment(parseInt(parseFloat(request.Amount)), request.WalletKey, request.WalletAddress, request.WithdrawalAddress)
+                if(parseFloat(response.balanceSat) > (parseFloat(request.Amount) * Math.pow(10, 8))){
+                    return Payment.ltcPayment(parseInt((parseFloat(request.Amount) * Math.pow(10, 8))), request.WalletKey, request.WalletAddress, request.WithdrawalAddress)
                 }
                 else{
                     throw new Error("balance unavailable")
@@ -48,7 +48,7 @@ var processWithdrawal = function(withdrawalRequests){
             console.log("Mongodb connection error : " + err)
         } else {
             console.log("database connected");
-            cron.schedule('*/5 * * * *', function(){
+            cron.schedule('*/1 * * * *', function(){
                 Withdrawal.find({
                     Currency: "LTC",
                     WithdrawalSuccess: false

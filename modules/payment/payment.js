@@ -138,7 +138,7 @@ Payment.prototype.ltcPayment = function(amount, privateKey, fromAddress, toAddre
     return new bluebird.Promise(function(resolve, reject){
         LitecoinUtils.getUtxos(sourceAddress.toString())
             .then(function(utxos){
-                var tx = new litecore.Transaction().fee(5000);
+                var tx = new litecore.Transaction().fee(3000);
 
                 tx.from(utxos);
                 tx.to(toAddress, amount);

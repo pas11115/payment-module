@@ -26,8 +26,8 @@ var processWithdrawal = function(withdrawalRequests){
     withdrawalRequests.forEach(function(request){
         BitcoinUtils.getBTCBalance(request.WalletAddress)
             .then(function(response){
-                if(parseFloat(response.balanceSat) > parseFloat(request.Amount)){
-                    return Payment.btcPayment(parseInt(parseFloat(request.Amount)), request.WalletKey, request.WalletAddress, request.WithdrawalAddress)
+                if(parseFloat(response.balanceSat) > (parseFloat(request.Amount) * Math.pow(10, 8))){
+                    return Payment.btcPayment(parseInt((parseFloat(request.Amount) * Math.pow(10, 8))), request.WalletKey, request.WalletAddress, request.WithdrawalAddress)
                 }
                 else{
                     throw new Error("balance unavailable")
