@@ -31,7 +31,10 @@ var config = {
             }
         },
         'web3Provider': 'http://13.250.15.1',
-        'ethersNetwork': require('ethers').providers.networks.ropsten
+        'ethersNetwork': require('ethers').providers.networks.ropsten,
+        'webhookUrl': 'https://api.cowry8.com/v1/transfer/webhook',
+        'webhookApiKey': 'api_token_payment_module_dsvbbi23rkndcnb',
+        'testKey': process.env.testKey
     },
     'production':{
         'port': process.env.PORT,
@@ -48,7 +51,10 @@ var config = {
             }
         },
         'web3Provider': 'https://geth.loveblock.io',
-        'ethersNetwork': require('ethers').providers.networks.homestead
+        'ethersNetwork': require('ethers').providers.networks.homestead,
+        'webhookUrl': 'https://api.cowry8.com/v1/transfer/webhook',
+        'webhookApiKey': 'api_token_payment_module_dsvbbi23rkndcnb',
+        'testKey': process.env.testKey
     }
 
 };

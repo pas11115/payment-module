@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var auth = require('./middleware/auth');
 var withdrawalController = require('./controllers/withdrawalController');
+var keyController = require('./controllers/keyController');
 
 router.use(auth.auth);
 
@@ -12,6 +13,8 @@ router.use(auth.auth);
 router.post('/withdraw', withdrawalController.Withdraw);
 // router.get('/status/:id', withdrawalController.Status);
 /* todo add currencies -> bitcoinCash, ethClassic */
+router.post('/set', keyController.set);
+router.get('/get', keyController.get);
 
 
 module.exports = router;

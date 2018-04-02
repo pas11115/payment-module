@@ -7,12 +7,14 @@ var winston = require('winston');
 mongoose.Promise = require('bluebird');
 var config = require('./config');
 var cors = require('cors');
+var fileUpload = require('express-fileupload');
 var app = express();
 
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileUpload());
 
 winston = new (winston.Logger)({
     transports: [

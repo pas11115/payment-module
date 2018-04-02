@@ -39,7 +39,7 @@ var erc20WithdrawalSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    WithdrawalConfirmation: {
+    WebhookSuccess: {
         type: Boolean,
         default: false
     },
