@@ -5,7 +5,7 @@ var env = process.env.NODE_ENV || 'development';
 var config = {
     'development':{
         'port': process.env.PORT || '3000',
-        'db': 'mongodb://test:test@ds221228.mlab.com:21228/cowpm',
+        'db': 'mongodb://test:test@cluster0-shard-00-00-pqc2v.mongodb.net:27017/payment-module?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin',
         'api': 'v1',
         'apiKey': 'udsbcbckdncssuabucukdbksncnn',
         'btc': {
@@ -30,7 +30,7 @@ var config = {
                 'network': litecore.Networks.livenet
             }
         },
-        'web3Provider': 'http://13.250.15.1',
+        'web3Provider': 'http://testgeth.karachainfoundation.org',
         'ethersNetwork': require('ethers').providers.networks.ropsten,
         'webhookUrl': 'https://api.cowry8.com/v1/transfer/webhook',
         'webhookApiKey': 'api_token_payment_module_dsvbbi23rkndcnb',
