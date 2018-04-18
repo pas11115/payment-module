@@ -1,12 +1,8 @@
 var config = require('./../../config');
-var Web3 = require('web3');
-var web3 = new Web3(config.web3Provider);
 var ethers = require('ethers');
-var Wallet = ethers.Wallet;
 var utils = ethers.utils;
 var providers = ethers.providers;
 var provider = new providers.JsonRpcProvider(config.web3Provider, config.ethersNetwork);
-var mongoose = require('mongoose');
 var bluebird = require('bluebird');
 var bitcore = require('bitcore-lib');
 var BitcoinUtils = require('./utils/bitcoinUtils');
@@ -57,7 +53,6 @@ Payment.prototype.ethPayment = function (amount, privateKey, concernedAddress) {
                 reject(error);
             })
     })
-
 };
 
 Payment.prototype.erc20Payment = function (amount, privateKey, fromAddress, toAddress, contractAddress, decimal) {
@@ -172,7 +167,6 @@ Payment.prototype.ltcPayment = function (amount, privateKey, fromAddress, toAddr
             .catch(function (error) {
                 reject(error);
             })
-
     })
 };
 
